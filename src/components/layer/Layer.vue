@@ -4,14 +4,23 @@
         <div id="layer2" class="pop-layer">
             <div class="pop-container">
                 <div class="pop-conts">
-                    <p class="ctxt mb20">Thank you.<br>
-                        Your registration was submitted successfully.<br>
-                        Selected invitees will be notified by e-mail on JANUARY 24th.<br><br>
-                        Hope to see you soon!
-                    </p>
+                    <input type="text" placeholder="일정 제목"/>
+                    <div>
+                        <span>시작일</span>
+                        <select v-model="startTime" class="select-box">
+                            <option v-for="(hour, index) in hours" :key="index">{{hour}}</option>
+                        </select>
+                        <span class="margin-right"></span>
+                        <span>종료일</span>
+                        <select v-model="endTime" class="select-box">
+                            <option v-for="(hour, index) in hours" :key="index">{{hour}}</option>
+                        </select>
+                    </div>
 
                     <div class="btn-r">
-                        <a href="#" class="btn-layerClose" @click.prevent="$emit('close');">Close</a>
+                        <a href="#" class="btn-layerClose" @click.prevent="$emit('close');">취소</a>
+                        <a href="#" class="btn-layerClose" @click.prevent="$emit('close');">삭제</a>
+                        <a href="#" class="btn-layerClose" @click.prevent="$emit('close');">저장</a>
                     </div>
                 </div>
             </div>
@@ -22,12 +31,33 @@
 export default {
     name: 'layer',
     props: ['writeData'],
+    data() {
+        return {
+            schedule: null,
+            hours: [],
+            startTime: 0,
+            endTime: 1
+        }
+    },
     created() {
+        this.schedule = {...this.writeData}
         console.log(this.writeData);
+        console.log(this.schedule);
+
+        for (let i = 0; i <= 24; i++) {
+            this.hours[i] = i;
+        }
     }
 }
 </script>
 <style>
+    .select-box {
+        width: 100px;
+    }
+    .margin-right {
+        margin-right: 20px;
+    }
+
     .pop-layer .pop-container {
         padding: 20px 25px;
     }
