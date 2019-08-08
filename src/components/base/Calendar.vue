@@ -3,6 +3,8 @@ export default {
     name: 'Calendar',
     data() {
         return {
+            showLayer: false,
+            writeData: null,
             today: new Date(),
             displayMonth: null,
             beforeStart: null,
@@ -70,6 +72,14 @@ export default {
 
                 this.weeks[week].push(startDate++);
             }
+        },
+        clickData(day) {
+            this.writeData = day;
+            this.showLayer = !this.showLayer;
+        },
+        closeLayer() {
+            this.writeData = null;
+            this.showLayer = false;
         }
     },
     created() {

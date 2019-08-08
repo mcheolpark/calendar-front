@@ -17,17 +17,24 @@
                 <td align="center">토</td>
             </tr>
             <tr v-for="(week, index) in weeks" :key="index">
-                <td v-for="(day, dayIndex) in week" :key="dayIndex"><div>{{day}}</div></td>
+                <day v-for="(day, dayIndex) in week" :key="dayIndex" :day="day" @clickData="clickData"></day>
             </tr>
         </table>
+        <layer v-if="showLayer" @close="closeLayer" :writeData="writeData"></layer>
     </div>
 </template>
 
 <script>
 import Calendar from '../base/Calendar.vue';
+import Day from './Day.vue';
+import Layer from '../layer/Layer.vue';
 
 export default {
     name: 'Month',
-    mixins: [Calendar]
+    mixins: [Calendar],
+    components: {
+        Day,
+        Layer
+    }
 }
 </script>
