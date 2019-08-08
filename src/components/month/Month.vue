@@ -17,7 +17,7 @@
                 <td align="center">토</td>
             </tr>
             <tr v-for="(week, index) in weeks" :key="index">
-                <td v-for="(day, dayIndex) in week" :key="dayIndex">{{day}}</td>
+                <td v-for="(day, dayIndex) in week" :key="dayIndex"><div>{{day}}</div></td>
             </tr>
         </table>
     </div>

@@ -9,6 +9,7 @@ export default {
             beforeEnd: null,
             firstDate: null,
             lastDate: null,
+            currentWeek: null,
             weeks: []
         }
     },
@@ -19,7 +20,9 @@ export default {
         getMonth() {
             return this.displayMonth && this.displayMonth.getMonth()+1;
         },
-
+        getCurrentWeek() {
+            return this.weeks[this.currentWeek];
+        }
     },
     methods: {
         createDateDisplayMonth() {
@@ -61,6 +64,9 @@ export default {
                     needBeforeMonthRender = false;
                 }
 
+                if (!needBeforeMonthRender && startDate === this.displayMonth.getDate()) {
+                    this.currentWeek = week;
+                }
 
                 this.weeks[week].push(startDate++);
             }
