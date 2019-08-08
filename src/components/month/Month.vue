@@ -16,14 +16,8 @@
                 <td align="center">금</td>
                 <td align="center">토</td>
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
+            <tr v-for="(week, index) in weeks" :key="index">
+                <td v-for="(day, dayIndex) in week" :key="dayIndex">{{day}}</td>
             </tr>
         </table>
     </div>
