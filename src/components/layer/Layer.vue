@@ -64,14 +64,20 @@ export default {
 
             let response = null;
 
-            if (this.schedule.id) {
-                response = await this.$axios.put('http://localhost:8080/put-schedule', params);
-            }
-            else {
-                response = await this.$axios.post('http://localhost:8080/post-schedule', params);
-            }
+            try {
+                if (this.schedule.id) {
+                    response = await this.$axios.put('http://localhost:8080/put-schedule', params);
+                }
+                else {
+                    response = await this.$axios.post('http://localhost:8080/post-schedule', params);
+                }
 
-            response.status === 200 && window.location.reload();
+                response.status === 200 && window.location.reload();
+            }
+            catch(e) {
+                console.log(e);
+                window.alert('일정이 중복되었습니다');
+            }
         },
         async deleteData() {
             let response = await this.$axios.delete(`http://localhost:8080/schedule/${this.schedule.id}`);
