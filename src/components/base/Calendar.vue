@@ -12,7 +12,9 @@ export default {
             firstDate: null,
             lastDate: null,
             currentWeek: null,
-            weeks: []
+            weeks: [],
+            isDataLoaded: false,
+            schedules: []
         }
     },
     computed: {
@@ -27,6 +29,13 @@ export default {
         }
     },
     methods: {
+        getSchedules(date) {
+            return this.schedules.filter(schedule => (
+                    (schedule.start.getMonth() === this.displayMonth.getMonth()) &&
+                    (schedule.start.getDate() <= date.day) &&
+                    (schedule.end.getDate() >= date.day)
+                ));
+        },
         createDateDisplayMonth() {
             const {year, month, day} = this.$route.query;
             return new Date(
@@ -35,14 +44,28 @@ export default {
                 Number(day || this.today.getDate())
             );
         },
-        initCalendar() {
+        async initCalendar() {
             let startDate = 1;
             this.displayMonth = this.createDateDisplayMonth();
             this.firstDate = new Date(this.displayMonth.getFullYear(),this.displayMonth.getMonth(), 1);      // 이번달의 첫번째날
             this.lastDate = new Date(this.displayMonth.getFullYear(),this.displayMonth.getMonth()+1, 0);   //이번달의 마지막날
 
+            this.isDataLoaded = false;
+            const response = await this.$axios.get('http://localhost:8080/schedule/2019/8');
+
+            if (response.status === 200) {
+                this.schedules = response.data.values.map((schedule) => ({
+                    id: schedule.id,
+                    start: new Date(schedule.start),
+                    end: new Date(schedule.end),
+                    title: schedule.title
+                }));
+            }
+
             let beforeMonthDays = 0;
             let needBeforeMonthRender = false;
+            let renderMonth = this.displayMonth.getMonth() + 1;
+            let renderYear = this.displayMonth.getFullYear();
 
             if (this.firstDate.getDay() !== 0) {
                 needBeforeMonthRender = true;
@@ -50,6 +73,8 @@ export default {
                 this.beforeEnd = new Date(this.beforeStart.getFullYear(),this.beforeStart.getMonth() + 1, 0);
                 beforeMonthDays = this.beforeEnd.getDate() - (this.beforeStart.getDate() - 1);
                 startDate = this.beforeStart.getDate();
+                renderMonth = this.beforeStart.getMonth() + 1;
+                renderYear = this.beforeStart.getFullYear();
             }
 
             let monthDays = this.lastDate.getDate() - (this.firstDate.getDate() - 1) + beforeMonthDays;
@@ -63,6 +88,8 @@ export default {
 
                 if (needBeforeMonthRender && this.beforeEnd && this.beforeEnd.getDate() < startDate) {
                     startDate = 1;
+                    renderMonth = this.displayMonth.getMonth() + 1;
+                    renderYear = this.displayMonth.getFullYear();
                     needBeforeMonthRender = false;
                 }
 
@@ -70,12 +97,19 @@ export default {
                     this.currentWeek = week;
                 }
 
-                this.weeks[week].push(startDate++);
+                //this.weeks[week].push(startDate++);
+                this.weeks[week].push({
+                    day: startDate++,
+                    month: renderMonth,
+                    year: renderYear
+                });
             }
+
+            this.isDataLoaded = true;
         },
         clickData(day) {
             this.writeData = day;
-            this.showLayer = !this.showLayer;
+            this.showLayer = true;
         },
         closeLayer() {
             this.writeData = null;
@@ -83,6 +117,12 @@ export default {
         }
     },
     created() {
+        /*
+        let config = {
+            headers: {'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'}
+        };
+        */
         this.initCalendar();
     }
 }

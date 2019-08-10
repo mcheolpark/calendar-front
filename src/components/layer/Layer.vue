@@ -4,16 +4,16 @@
         <div id="layer2" class="pop-layer">
             <div class="pop-container">
                 <div class="pop-conts">
-                    <input type="text" placeholder="일정 제목"/>
+                    <input type="text" placeholder="일정 제목" v-model="schedule.title"/>
                     <div>
-                        <datepicker v-model="startDate"></datepicker>
+                        <datepicker v-model="schedule.start"></datepicker>
                         <select v-model="startTime" class="select-box">
                             <option v-for="(hour, index) in hours" :key="index">{{hour}}</option>
                         </select>
 
                         <span class="margin-right"></span>
 
-                        <datepicker v-model="endDate"></datepicker>
+                        <datepicker v-model="schedule.end"></datepicker>
                         <select v-model="endTime" class="select-box">
                             <option v-for="(hour, index) in hours" :key="index">{{hour}}</option>
                         </select>
@@ -39,28 +39,52 @@ export default {
     },
     data() {
         return {
-            schedule: null,
+            schedule: {
+                start: null,
+                end: null,
+                title: null
+            },
             hours: [],
-            startDate: null,
-            endDate: null,
             startTime: 0,
             endTime: 1
         }
     },
     methods: {
-        save() {
-            console.log(this.startDate);
-            console.log(this.endDate);
+        async save() {
+            const {start, end} = this.schedule;
+            start.setHours(this.startTime);
+            end.setHours(this.endTime);
+
+            const params = {
+                id: this.schedule.id,
+                start : this.schedule.start.getTime(),
+                end : this.schedule.end.getTime(),
+                title : this.schedule.title
+            };
+
+            let response = null;
+
+            if (this.schedule.id) {
+                response = await this.$axios.put('http://localhost:8080/put-schedule', params);
+            }
+            else {
+                response = await this.$axios.post('http://localhost:8080/post-schedule', params);
+            }
+
+            console.log(response);
         }
     },
     created() {
         this.schedule = {...this.writeData}
+        this.startTime = (this.writeData.start && this.writeData.start.getHours()) || new Date().getHours();
+        this.endTime = (this.writeData.end && this.writeData.end.getHours()) || new Date().getHours() + 1;
         console.log(this.writeData);
         console.log(this.schedule);
 
         for (let i = 0; i <= 24; i++) {
             this.hours[i] = i;
         }
+
     }
 }
 </script>

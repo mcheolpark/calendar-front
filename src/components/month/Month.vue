@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="isDataLoaded">
         <table id="calendar"  border="3" align="center" width="100%" height="500">
             <tr >
                 <td align ="center"> <label><</label> </td>
@@ -17,7 +17,7 @@
                 <td align="center">토</td>
             </tr>
             <tr v-for="(week, index) in weeks" :key="index">
-                <day v-for="(day, dayIndex) in week" :key="dayIndex" :day="day" @clickData="clickData"></day>
+                <day v-for="(date, dayIndex) in week" :key="dayIndex" :date="date" @clickData="clickData" :schedule="getSchedules(date)"></day>
             </tr>
         </table>
         <layer v-if="showLayer" @close="closeLayer" :writeData="writeData"></layer>
