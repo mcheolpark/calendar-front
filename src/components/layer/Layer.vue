@@ -6,12 +6,14 @@
                 <div class="pop-conts">
                     <input type="text" placeholder="일정 제목"/>
                     <div>
-                        <span>시작일</span>
+                        <datepicker v-model="startDate"></datepicker>
                         <select v-model="startTime" class="select-box">
                             <option v-for="(hour, index) in hours" :key="index">{{hour}}</option>
                         </select>
+
                         <span class="margin-right"></span>
-                        <span>종료일</span>
+
+                        <datepicker v-model="endDate"></datepicker>
                         <select v-model="endTime" class="select-box">
                             <option v-for="(hour, index) in hours" :key="index">{{hour}}</option>
                         </select>
@@ -20,7 +22,7 @@
                     <div class="btn-r">
                         <a href="#" class="btn-layerClose" @click.prevent="$emit('close');">취소</a>
                         <a href="#" class="btn-layerClose" @click.prevent="$emit('close');">삭제</a>
-                        <a href="#" class="btn-layerClose" @click.prevent="$emit('close');">저장</a>
+                        <a href="#" class="btn-layerClose" @click.prevent="save()">저장</a>
                     </div>
                 </div>
             </div>
@@ -28,15 +30,27 @@
     </div>
 </template>
 <script>
+import Datepicker from 'vuejs-datepicker';
 export default {
     name: 'layer',
     props: ['writeData'],
+    components: {
+        Datepicker
+    },
     data() {
         return {
             schedule: null,
             hours: [],
+            startDate: null,
+            endDate: null,
             startTime: 0,
             endTime: 1
+        }
+    },
+    methods: {
+        save() {
+            console.log(this.startDate);
+            console.log(this.endDate);
         }
     },
     created() {
