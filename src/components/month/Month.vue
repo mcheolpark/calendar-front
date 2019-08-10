@@ -50,3 +50,6 @@ export default {
     }
 }
 </script>
+<style>
+    table {table-layout: fixed}
+</style>
