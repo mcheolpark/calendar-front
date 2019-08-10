@@ -2,9 +2,9 @@
     <div v-if="isDataLoaded">
         <table id="calendar"  border="3" align="center" width="100%" height="500">
             <tr >
-                <td align ="center"> <label><</label> </td>
+                <td align ="center"> <router-link :to="{ name: 'main', query: getRouterQueryObject(-1)}"> < </router-link> </td>
                 <td colspan="5" align ="center" id="calendarYM">{{getYear}}년 {{getMonth}}월</td>
-                <td align ="center"> <label>></label> </td>
+                <td align ="center"> <router-link :to="{ name: 'main', query: getRouterQueryObject(1)}"> > </router-link> </td>
             </tr>
 
             <tr>
@@ -35,6 +35,18 @@ export default {
     components: {
         Day,
         Layer
+    },
+    methods: {
+        getRouterQueryObject(diff) {
+            const updateDate = this.createDateDisplayMonth();
+            updateDate.setMonth(updateDate.getMonth() + diff);
+
+            return {
+                year: updateDate.getFullYear(),
+                month: updateDate.getMonth() + 1,
+                day: updateDate.getDate()
+            };
+        }
     }
 }
 </script>

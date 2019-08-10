@@ -71,11 +71,11 @@ export default {
                 response = await this.$axios.post('http://localhost:8080/post-schedule', params);
             }
 
-            console.log(response);
+            response.status === 200 && window.location.reload();
         },
         async deleteData() {
             let response = await this.$axios.delete(`http://localhost:8080/schedule/${this.schedule.id}`);
-            console.log(response);
+            response.status === 200 && window.location.reload();
         }
     },
     created() {

@@ -28,6 +28,11 @@ export default {
             return this.weeks[this.currentWeek];
         }
     },
+    watch: {
+        '$route.query' (to, from) {
+            this.initCalendar();
+        }
+    },
     methods: {
         getSchedules(date) {
             if (date.month !== (this.displayMonth.getMonth() + 1)) {
@@ -55,7 +60,7 @@ export default {
             this.lastDate = new Date(this.displayMonth.getFullYear(),this.displayMonth.getMonth()+1, 0);   //이번달의 마지막날
 
             this.isDataLoaded = false;
-            const response = await this.$axios.get('http://localhost:8080/schedule/2019/8');
+            const response = await this.$axios.get(`http://localhost:8080/schedule/${this.displayMonth.getFullYear()}/${this.displayMonth.getMonth() + 1}`);
 
             if (response.status === 200) {
                 this.schedules = response.data.values.map((schedule) => ({
