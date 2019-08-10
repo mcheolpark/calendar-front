@@ -30,6 +30,10 @@ export default {
     },
     methods: {
         getSchedules(date) {
+            if (date.month !== (this.displayMonth.getMonth() + 1)) {
+                return null;
+            }
+
             return this.schedules.filter(schedule => (
                     (schedule.start.getMonth() === this.displayMonth.getMonth()) &&
                     (schedule.start.getDate() <= date.day) &&
