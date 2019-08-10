@@ -21,7 +21,7 @@
 
                     <div class="btn-r">
                         <a href="#" class="btn-layerClose" @click.prevent="$emit('close');">취소</a>
-                        <a href="#" class="btn-layerClose" @click.prevent="$emit('close');">삭제</a>
+                        <a href="#" class="btn-layerClose" @click.prevent="deleteData()">삭제</a>
                         <a href="#" class="btn-layerClose" @click.prevent="save()">저장</a>
                     </div>
                 </div>
@@ -71,6 +71,10 @@ export default {
                 response = await this.$axios.post('http://localhost:8080/post-schedule', params);
             }
 
+            console.log(response);
+        },
+        async deleteData() {
+            let response = await this.$axios.delete(`http://localhost:8080/schedule/${this.schedule.id}`);
             console.log(response);
         }
     },
