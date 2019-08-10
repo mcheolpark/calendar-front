@@ -1,6 +1,6 @@
 <template>
     <div style="position:relative">
-        <table id="calendar" border="1" align="center" width="100%" height="500">
+        <table id="calendar" ref="calendar" border="1" align="center" width="100%" height="500">
             <tr >
                 <td align ="center"><router-link :to="{ name: 'week', query: getRouterQueryObject(-7)}"> < </router-link></td>
                 <td colspan="6" align ="center" id="calendarYM">{{getYear}}년 {{getMonth}}월</td>

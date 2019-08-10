@@ -10,18 +10,20 @@ export default {
     props: ['schedule'],
     data() {
         return {
-            BOARD_MARGIN: 6
+            BOARD_MARGIN: 1
         }
     },
     methods: {
         getStyle() {
-            console.log(this.schedule);
-            console.log(this.$parent.$refs.timeTd);
+            const calendar = this.$parent.$refs.calendar;
             const tableTd = this.$parent.$refs.timeTd;
             const {start, end} = this.schedule;
 
-            const top = `${(tableTd.offsetHeight * (start.getHours() + 1 + 2)) + this.BOARD_MARGIN}px`;
-            const left = `${tableTd.offsetWidth * (1 + start.getDay()) + this.BOARD_MARGIN}px`;
+            const currentRow = calendar.rows[start.getHours() + 2];
+            const currentCell =  currentRow.cells[start.getDay() + 1];
+
+            const top = `${currentRow.offsetTop + this.BOARD_MARGIN}px`;
+            const left = `${currentCell.offsetLeft + this.BOARD_MARGIN}px`;
 
             const width = `${tableTd.offsetWidth}px`;
             const height = `${tableTd.offsetHeight * (end.getHours() - start.getHours())}px`;
