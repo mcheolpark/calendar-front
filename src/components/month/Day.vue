@@ -7,19 +7,20 @@
     </td>
 </template>
 <script>
+import {Events} from '../../const/const';
 export default {
     name: 'Day',
     props: ['date', 'schedule'],
     methods: {
         clickCell(date) {
-            this.$emit('clickData', {
+            this.$emit(Events.CLICK_DATA, {
                 start: new Date(date.year, date.month - 1, date.day),
                 end: new Date(date.year, date.month - 1, date.day),
                 title: null
             });
         },
         clicSchedule(schedule) {
-            this.$emit('clickData', schedule);
+            this.$emit(Events.CLICK_DATA, schedule);
         }
     }
 }

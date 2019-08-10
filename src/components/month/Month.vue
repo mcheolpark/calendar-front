@@ -1,6 +1,6 @@
 <template>
     <div v-if="isDataLoaded">
-        <table id="calendar"  border="3" align="center" width="100%" height="500">
+        <table id="calendar"  border="1" align="center" width="100%" height="500">
             <tr >
                 <td align ="center"> <router-link :to="{ name: 'main', query: getRouterQueryObject(-1)}"> < </router-link> </td>
                 <td colspan="5" align ="center" id="calendarYM">{{getYear}}년 {{getMonth}}월</td>
@@ -50,6 +50,3 @@ export default {
     }
 }
 </script>
-<style>
-    table {table-layout: fixed}
-</style>

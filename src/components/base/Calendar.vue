@@ -26,6 +26,27 @@ export default {
         },
         getCurrentWeek() {
             return this.weeks[this.currentWeek];
+        },
+        getCurrentWeekSchedules() {
+            if (!this.getCurrentWeek) {
+                return [];
+            }
+
+            const currentWeek = this.getCurrentWeek.map(item => {
+                const day = new Date(item.year, item.month -1, item.day);
+                const nextDay = new Date(day);
+                nextDay.setDate(nextDay.getDate() + 1);
+                return {
+                    day,
+                    nextDay
+                };
+            });
+
+            return this.schedules.filter(schedule => (
+                currentWeek.find(data => {
+                    return data.day <= schedule.start && schedule.end <= data.nextDay;
+                })
+            ));
         }
     },
     watch: {
@@ -106,7 +127,6 @@ export default {
                     this.currentWeek = week;
                 }
 
-                //this.weeks[week].push(startDate++);
                 this.weeks[week].push({
                     day: startDate++,
                     month: renderMonth,
@@ -126,13 +146,10 @@ export default {
         }
     },
     created() {
-        /*
-        let config = {
-            headers: {'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json'}
-        };
-        */
         this.initCalendar();
     }
 }
 </script>
+<style>
+    table {table-layout: fixed}
+</style>
