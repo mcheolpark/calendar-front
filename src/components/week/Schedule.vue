@@ -1,10 +1,11 @@
 <template>
-    <div :style="getStyle()" style="overflow: hidden">
+    <div :style="getStyle()" style="overflow: hidden" @click.prevent="clicSchedule(schedule)">
         <div>{{schedule.start.getHours()}} ~ {{schedule.end.getHours()}}</div>
         <div>{{schedule.title}}</div>
     </div>
 </template>
 <script>
+import {Events} from '../../const/const';
 export default {
     name: 'Schedule',
     props: ['schedule'],
@@ -37,6 +38,9 @@ export default {
                 width: width,
                 backgroundColor: 'blue'
             };
+        },
+        clicSchedule(schedule) {
+            this.$emit(Events.CLICK_DATA, schedule);
         }
     }
 }

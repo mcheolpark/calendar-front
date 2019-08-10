@@ -82,8 +82,6 @@ export default {
         this.schedule = {...this.writeData}
         this.startTime = (this.writeData.start && this.writeData.start.getHours()) || new Date().getHours();
         this.endTime = (this.writeData.end && this.writeData.end.getHours()) || new Date().getHours() + 1;
-        console.log(this.writeData);
-        console.log(this.schedule);
 
         for (let i = 0; i <= 24; i++) {
             this.hours[i] = i;
