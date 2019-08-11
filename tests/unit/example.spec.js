@@ -1,5 +1,6 @@
 import {shallowMount} from '@vue/test-utils';
 import Day from '@/components/month/Day.vue';
+import Schedule from '@/components/week/Schedule.vue';
 
 describe('Day.vue', () => {
     it('2019년 8월 14일 일정이 제대로 노출되는가?', () => {
@@ -44,4 +45,22 @@ describe('Day.vue', () => {
         console.log(wrapper.text());
         expect(wrapper.text()).toMatch('');
     });
+});
+
+describe('Schedule.vue', () => {
+    it('2019년 8월 14일 일정이 제대로 노출되는가?', () => {
+        const wrapper = shallowMount(Schedule, {
+            propsData: {
+                schedule: {
+                    id: 1,
+                    start: new Date(2019, 8, 14, 12),
+                    end: new Date(2019, 8, 14, 14),
+                    title: '일정등록 테스트'
+                }
+            }
+        });
+        
+        console.log(wrapper.text());
+        expect(wrapper.text()).toMatch('12 ~ 14 일정등록 테스트');
+    })
 });
