@@ -53,9 +53,19 @@ export default {
     },
     methods: {
         async save() {
-            const {start, end} = this.schedule;
+            const {start, end, title} = this.schedule;
             start.setHours(this.startTime);
             end.setHours(this.endTime);
+
+            if (title === '' || title === null) {
+                window.alert('제목을 입력해주세요');
+                return;
+            }
+
+            if (start >= end) {
+                window.alert('일정 종료시간을 재확인해주세요');
+                return;
+            }
 
             const params = {
                 id: this.schedule.id,
@@ -111,8 +121,8 @@ export default {
 
     .pop-layer {
         position: absolute;
-        top: 50%;
-        left: 50%;
+        top: 35%;
+        left: 35%;
         width: 410px;
         height: auto;
         background-color: #fff;

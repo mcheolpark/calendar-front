@@ -16,28 +16,32 @@ export default {
     },
     methods: {
         getStyle() {
-            const calendar = this.$parent.$refs.calendar;
-            const tableTd = this.$parent.$refs.timeTd;
-            const {start, end} = this.schedule;
+            if (this.$parent.$refs.calendar) {
+                const calendar = this.$parent.$refs.calendar;
+                const tableTd = this.$parent.$refs.timeTd;
+                const {start, end} = this.schedule;
 
-            const currentRow = calendar.rows[start.getHours() + 2];
-            const currentCell =  currentRow.cells[start.getDay() + 1];
+                const currentRow = calendar.rows[start.getHours() + 2];
+                const currentCell =  currentRow.cells[start.getDay() + 1];
 
-            const top = `${currentRow.offsetTop + this.BOARD_MARGIN}px`;
-            const left = `${currentCell.offsetLeft + this.BOARD_MARGIN}px`;
+                const top = `${currentRow.offsetTop + this.BOARD_MARGIN}px`;
+                const left = `${currentCell.offsetLeft + this.BOARD_MARGIN}px`;
 
-            const width = `${tableTd.offsetWidth}px`;
-            const height = `${tableTd.offsetHeight * (end.getHours() - start.getHours())}px`;
+                const width = `${tableTd.offsetWidth}px`;
+                const height = `${tableTd.offsetHeight * (end.getHours() - start.getHours())}px`;
 
 
-            return {
-                top: top,
-                left: left,
-                position: 'absolute',
-                height: height,
-                width: width,
-                backgroundColor: 'blue'
-            };
+                return {
+                    top: top,
+                    left: left,
+                    position: 'absolute',
+                    height: height,
+                    width: width,
+                    backgroundColor: 'blue'
+                };
+            }
+
+            return {};
         },
         clicSchedule(schedule) {
             this.$emit(Events.CLICK_DATA, schedule);
