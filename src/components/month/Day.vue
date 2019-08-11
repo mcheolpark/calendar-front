@@ -1,10 +1,11 @@
 <template>
-    <td @click.prevent="clickCell(date)">
+    <td @click.prevent="clickCell(date)" v-if="date.currentMonth">
         <div>{{date.day}}</div>
         <div style="height: 42px;overflow: hidden;">
             <div v-for="(item, index) in schedule" :key="index" @click.prevent="clicSchedule(item)">{{item.start.getHours()}}~{{item.end.getHours()}} {{item.title}}</div>
         </div>
     </td>
+    <td v-else=""></td>
 </template>
 <script>
 import {Events} from '../../const/const';

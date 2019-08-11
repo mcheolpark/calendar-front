@@ -77,8 +77,8 @@ export default {
         async initCalendar() {
             let startDate = 1;
             this.displayMonth = this.createDateDisplayMonth();
-            this.firstDate = new Date(this.displayMonth.getFullYear(),this.displayMonth.getMonth(), 1);      // 이번달의 첫번째날
-            this.lastDate = new Date(this.displayMonth.getFullYear(),this.displayMonth.getMonth()+1, 0);   //이번달의 마지막날
+            this.firstDate = new Date(this.displayMonth.getFullYear(),this.displayMonth.getMonth(), 1);     // 첫번째날
+            this.lastDate = new Date(this.displayMonth.getFullYear(),this.displayMonth.getMonth()+1, 0);    //  마지막날
 
             this.isDataLoaded = false;
             const response = await this.$axios.get(`http://localhost:8080/schedule/${this.displayMonth.getFullYear()}/${this.displayMonth.getMonth() + 1}`);
@@ -130,7 +130,8 @@ export default {
                 this.weeks[week].push({
                     day: startDate++,
                     month: renderMonth,
-                    year: renderYear
+                    year: renderYear,
+                    currentMonth: !needBeforeMonthRender
                 });
             }
 
