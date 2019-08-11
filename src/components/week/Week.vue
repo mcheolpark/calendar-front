@@ -13,7 +13,7 @@
             </tr>
             <tr v-for="(hour, index) in hours" :key="index">
                 <td><div>{{hour}}시</div></td>
-                <td v-for="(data, index) in getCurrentWeek" :key="index" @click.prevent="clickCell(data, hour)" @drop="dragFinish($event)" @dragover.prevent :hour="hour" :cellData="data"><div></div></td>
+                <td v-for="(data, index) in getCurrentWeek" :key="index" @click.prevent="clickCell(data, hour)" @drop="dragFinish($event)" @dragover.prevent :hour="hour" :weekDataIndex="index"><div></div></td>
             </tr>
         </table>
 
@@ -26,6 +26,7 @@
 import Calendar from '../base/Calendar.vue';
 import Schedule from './Schedule.vue';
 import Layer from '../layer/Layer.vue';
+import ScheduleService from '../../service/ScheduleService';
 
 export default {
     name: 'Week',
@@ -37,7 +38,8 @@ export default {
     data() {
         return {
             hours: [],
-            days: ['일', '월', '화', '수', '목', '금', '토']
+            days: ['일', '월', '화', '수', '목', '금', '토'],
+            dragScheduleData: null                          //  현재 드래그 중인 데이타
         }
     },
     methods: {
@@ -61,12 +63,31 @@ export default {
             console.log(data);
             const {event, schedule} = data;
             event.dataTransfer.setData("scheduleId", schedule.id);
+            this.dragScheduleData = schedule;
         },
-        dragFinish(event) {
-            console.log(event.srcElement);
-            console.log(event.srcElement.getAttribute('hour'));
-            debugger;
-            console.log(event.dataTransfer.getData("scheduleId"));
+        async dragFinish(event) {
+            const updateHour = event.srcElement.getAttribute('hour');
+            const dropedWeekDataIndex = event.srcElement.getAttribute('weekDataIndex');
+            const dropedWeekData = this.getCurrentWeek[dropedWeekDataIndex];
+            const scheduleId = event.dataTransfer.getData("scheduleId");
+
+            const {year, month, day} = dropedWeekData;
+
+            const updateScheduleStartData = new Date(year, month - 1, day, updateHour);
+            const updateScheduleEndData = new Date(updateScheduleStartData);
+            const timeDiff = this.dragScheduleData.end.getHours() - this.dragScheduleData.start.getHours();
+            updateScheduleEndData.setHours(updateScheduleEndData.getHours() + timeDiff);
+
+            const params = {
+                id: scheduleId,
+                start : updateScheduleStartData.getTime(),
+                end : updateScheduleEndData.getTime(),
+                title : this.dragScheduleData.title
+            };
+
+
+            const response = await ScheduleService.save(this, params);
+            response.status === 200 && window.location.reload();
         }
     },
     created() {

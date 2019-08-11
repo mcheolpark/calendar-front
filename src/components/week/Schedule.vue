@@ -43,7 +43,7 @@ export default {
             this.$emit(Events.CLICK_DATA, schedule);
         },
         dragStart(event) {
-            this.$emit('dragStartData', {event, schedule: this.schedule});
+            this.$emit(Events.DRAG_START_DATA, {event, schedule: this.schedule});
         }
     }
 }

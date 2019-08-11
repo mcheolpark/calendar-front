@@ -31,6 +31,8 @@
 </template>
 <script>
 import Datepicker from 'vuejs-datepicker';
+import ScheduleService from '../../service/ScheduleService';
+
 export default {
     name: 'layer',
     props: ['writeData'],
@@ -62,25 +64,11 @@ export default {
                 title : this.schedule.title
             };
 
-            let response = null;
-
-            try {
-                if (this.schedule.id) {
-                    response = await this.$axios.put('http://localhost:8080/put-schedule', params);
-                }
-                else {
-                    response = await this.$axios.post('http://localhost:8080/post-schedule', params);
-                }
-
-                response.status === 200 && window.location.reload();
-            }
-            catch(e) {
-                console.log(e);
-                window.alert('일정이 중복되었습니다');
-            }
+            const response = await ScheduleService.save(this, params);
+            response.status === 200 && window.location.reload();
         },
         async deleteData() {
-            let response = await this.$axios.delete(`http://localhost:8080/schedule/${this.schedule.id}`);
+            const response = await ScheduleService.delete(this, this.schedule.id);
             response.status === 200 && window.location.reload();
         }
     },
