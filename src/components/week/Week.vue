@@ -2,9 +2,9 @@
     <div style="position:relative">
         <table id="calendar" ref="calendar" border="1" align="center" width="100%" height="500">
             <tr >
-                <td align ="center"><router-link :to="{ name: 'week', query: getRouterQueryObject(-7)}"> < </router-link></td>
+                <td align ="center"><router-link :to="{ name: 'week', query: getRouterQueryObject(-7)}"> &lt; </router-link></td>
                 <td colspan="6" align ="center" id="calendarYM">{{getYear}}년 {{getMonth}}월</td>
-                <td align ="center"><router-link :to="{ name: 'week', query: getRouterQueryObject(7)}"> > </router-link></td>
+                <td align ="center"><router-link :to="{ name: 'week', query: getRouterQueryObject(7)}"> &gt; </router-link></td>
             </tr>
 
             <tr>
@@ -60,7 +60,6 @@ export default {
             });
         },
         dragStart(data) {
-            console.log(data);
             const {event, schedule} = data;
             event.dataTransfer.setData("scheduleId", schedule.id);
             this.dragScheduleData = schedule;

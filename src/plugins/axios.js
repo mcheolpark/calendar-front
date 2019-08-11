@@ -39,7 +39,7 @@ _axios.interceptors.response.use(
   }
 );
 
-Plugin.install = function(Vue, options) {
+Plugin.install = function(Vue) {  // eslint오류 때문에 options 제거
   Vue.axios = _axios;
   window.axios = _axios;
   Object.defineProperties(Vue.prototype, {

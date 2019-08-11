@@ -52,7 +52,7 @@ export default {
         }
     },
     watch: {
-        '$route.query' (to, from) {
+        '$route.query' () {
             this.initCalendar();
         }
     },
