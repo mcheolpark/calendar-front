@@ -135,6 +135,22 @@ export default {
                 });
             }
 
+            // 주간 달력에서 오류발생으로 인해서 임시 코드
+            if (this.weeks[week].length < 7) {
+                let nextMonth = new Date(this.lastDate);
+                nextMonth.setDate(nextMonth.getDate() + 1);
+
+                let start = 1;
+                for (let i = this.weeks[week].length; i < 7; i++) {
+                    this.weeks[week].push({
+                        day: start++,
+                        month: nextMonth.getMonth() + 1,
+                        year: nextMonth.getFullYear(),
+                        currentMonth: false
+                    });
+                }
+            }
+
             this.isDataLoaded = true;
         },
         clickData(day) {

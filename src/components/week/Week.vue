@@ -44,7 +44,6 @@ export default {
         getRouterQueryObject(diff) {
             const updateDate = this.createDateDisplayMonth();
             updateDate.setDate(updateDate.getDate() + diff);
-
             return {
                 year: updateDate.getFullYear(),
                 month: updateDate.getMonth() + 1,
