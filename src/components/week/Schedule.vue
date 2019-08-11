@@ -1,5 +1,5 @@
 <template>
-    <div :style="getStyle()" style="overflow: hidden" @click.prevent="clicSchedule(schedule)">
+    <div :style="getStyle()" style="overflow: hidden" @click.prevent="clicSchedule(schedule)" draggable="true" @dragstart="dragStart($event)">
         <div>{{schedule.start.getHours()}} ~ {{schedule.end.getHours()}}</div>
         <div>{{schedule.title}}</div>
     </div>
@@ -41,6 +41,9 @@ export default {
         },
         clicSchedule(schedule) {
             this.$emit(Events.CLICK_DATA, schedule);
+        },
+        dragStart(event) {
+            this.$emit('dragStartData', {event, schedule: this.schedule});
         }
     }
 }

@@ -13,11 +13,11 @@
             </tr>
             <tr v-for="(hour, index) in hours" :key="index">
                 <td><div>{{hour}}시</div></td>
-                <td v-for="(data, index) in getCurrentWeek" :key="index" @click.prevent="clickCell(data, hour)"><div></div></td>
+                <td v-for="(data, index) in getCurrentWeek" :key="index" @click.prevent="clickCell(data, hour)" @drop="dragFinish($event)" @dragover.prevent :hour="hour" :cellData="data"><div></div></td>
             </tr>
         </table>
 
-        <schedule v-for="(schedule, index) in getCurrentWeekSchedules" :key="index" :schedule="schedule" @clickData="clickData"></schedule>
+        <schedule v-for="(schedule, index) in getCurrentWeekSchedules" :key="index" :schedule="schedule" @clickData="clickData" @dragStartData="dragStart"></schedule>
         <layer v-if="showLayer" @close="closeLayer" :writeData="writeData"></layer>
     </div>
 </template>
@@ -56,6 +56,17 @@ export default {
                 end: new Date(date.year, date.month - 1, date.day, hour + 1),
                 title: null
             });
+        },
+        dragStart(data) {
+            console.log(data);
+            const {event, schedule} = data;
+            event.dataTransfer.setData("scheduleId", schedule.id);
+        },
+        dragFinish(event) {
+            console.log(event.srcElement);
+            console.log(event.srcElement.getAttribute('hour'));
+            debugger;
+            console.log(event.dataTransfer.getData("scheduleId"));
         }
     },
     created() {
