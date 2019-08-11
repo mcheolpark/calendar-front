@@ -19,7 +19,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### 프로젝트 구성
 프레임워크는 vuejs를 이용해서 만들었으며 프로젝트 구성은 vuecli3.0(https://cli.vuejs.org/guide/) 이용해서 구현되어 있습니다
+
 유닛 테스트를 하기 위해서 jest를 사용하고 있으며 jest는 vuecli3.0 설치시 옵션으로 설치여부를 지정할 수 있습니다.
+
 그 외에 추가적으로 설치한 패키지로는 vuejs-datepicker, vue-cli-plugin-axios 이 있습니다
 
 vue-cli-plugin-axios - API 통신을 하기 위한 모듈
