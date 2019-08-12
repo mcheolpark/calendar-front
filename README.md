@@ -28,7 +28,7 @@ vue-cli-plugin-axios - API 통신을 하기 위한 모듈
 vuejs-datepicker - 캘린더 일정 추가시 사용되는 datepicker
 
 사용되는 포트는 9000번으로 http://localhost:9000 으로 실행할 수 있습니다
-단 사전에 서버(https://github.com/mcheolpark/calendar-api)를 먼저 구동시켜야 동작을 확인 할 수 있습니다.
+단 사전에 서버(https://github.com/mcheolpark/calendar-api-server)를 먼저 구동시켜야 동작을 확인 할 수 있습니다.
 
 기능명세서에 포함되어 있는 Drag and Drop을 구현하기 위해서 html5에서 제공해주고 있는 Drag and Drop 기능을 적용해서 구현했습니다
  - https://www.w3schools.com/html/html5_draganddrop.asp
